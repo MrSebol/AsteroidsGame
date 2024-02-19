@@ -44,8 +44,9 @@ public class PlayerController : MonoBehaviour
         rotation *= Input.GetAxis("Horizontal");
         //pomnó¿ przez prêdkoœæ obrotu
         rotation *= rotationSpeed;
+        
         //dodaj obrót do obiekt
-        //nie mo¿emy u¿yæ += poniewa¿unity u¿ywa Quaternionów do zapisu rotacji
+        //nie mo¿emy u¿yæ += poniewa¿ unity u¿ywa Quaternionów do zapisu rotacji
         transform.Rotate(rotation);
 
     }
