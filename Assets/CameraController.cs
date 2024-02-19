@@ -24,7 +24,7 @@ public class CameraController : MonoBehaviour
         Vector3 targetPosition = player.position + Vector3.up * cameraHeight;
         //p³ynnie przesuñ kamerê w kierunku gracza
         //funkcja Vector3.Lerp
-        //p³ynnie przechodzi z pozycji pierwszego argumentu do pozycji drugiego w czasie trzeciego
+        //p³ynnie przechodzi z pozycji pierwszego argumentu do pozycji drugiego w czasie trzeciegoo
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime);
     }
 }
