@@ -1,3 +1,4 @@
+#nullable enable
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,7 +30,7 @@ public class AsteroidSpawner : MonoBehaviour
         //dolicz czas od ostatniej klatki
         timeSinceSpawn += Time.deltaTime;
         //jezeli czas przekroczyl sekunde to spawnuj i zresteuj
-        if (timeSinceSpawn > 1)
+        if (timeSinceSpawn > 0.1)
         {
             GameObject asteriod = SpawnAsteriod(staticAsteriod);
             timeSinceSpawn = 0;
