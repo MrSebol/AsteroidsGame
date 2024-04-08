@@ -1,4 +1,4 @@
-#nullable enable
+ï»¿#nullable enable
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,15 +9,21 @@ public class AsteroidSpawner : MonoBehaviour
     Transform player;
 
     //prefab statycznej asteroidy
-    public GameObject staticAsteriod;
+    public GameObject staticAsteroid;
 
-    //czas od ostatnio wygenerowanej asteriody
+    //czas od ostatio wygenerowanej asteoidy
     float timeSinceSpawn;
+
+    //odlegÂ³oÅ“ w jakiej spawnujÂ¹ siÃª asteroidy
+    public float spawnDistance = 5;
+
+    //odlegÂ³oÅ“Ã¦ pomiÃªdzy asteroidami
+    public float safeDistance = 5;
 
     // Start is called before the first frame update
     void Start()
     {
-        //znajdz gracza i przypisz go do zmiennej 
+        //znajdz gracz i przypisz do zmiennej
         player = GameObject.FindWithTag("Player").transform;
 
         //zeruj czas
@@ -27,76 +33,68 @@ public class AsteroidSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //dolicz czas od ostatniej klatki
-        timeSinceSpawn += Time.deltaTime;
-        //jezeli czas przekroczyl sekunde to spawnuj i zresteuj
-        if (timeSinceSpawn > 0.1)
-        {
-            GameObject asteriod = SpawnAsteriod(staticAsteriod);
-            timeSinceSpawn = 0;
-        }
+        SpawnAsteroid(staticAsteroid);
+
         AsteroidCountControll();
     }
 
-    GameObject? SpawnAsteriod(GameObject prefab)
+    GameObject? SpawnAsteroid(GameObject prefab)
     {
+        //generyczna funkcja sluzaca do wylosowania wspolrzednych i umieszczenia
+        //w tym miejscu asteroidy z prefaba
 
-        //stworz losow¹ pozycjê na okrêgu (x,y)
+        //stworz losowÂ¹ pozycjÃª na okrÃªgu (x,y)
         Vector2 randomCirclePosition = Random.insideUnitCircle.normalized;
 
-        //losowa pozycja w odleg³oœci 10 jednostek od œrodka œwiata
+        //losowa pozycja w odlegÂ³oÅ“ci 10 jednostek od Å“rodka Å“wiata
         //mapujemy x->x, y->z, a y ustawiamy 0
-        Vector3 randomPosition = new Vector3(randomCirclePosition.x, 0, randomCirclePosition.y) * 10;
+        Vector3 randomPosition = new Vector3(randomCirclePosition.x, 0, randomCirclePosition.y) * spawnDistance;
 
-        //na³ó¿ pozycjê gracza - teraz mamy pozycje 10 jednostek od gracza
+        //naÂ³Ã³Â¿ pozycjÃª gracza - teraz mamy pozycje 10 jednostek od gracza
         randomPosition += player.position;
 
         //sprawdz czy miejsce jest wolne
         //! oznacza "nie" czyli nie ma nic w promieniu 5 jednostek od miejsca randomPosition
-        if (!Physics.CheckSphere(randomPosition, 5))
+        if (!Physics.CheckSphere(randomPosition, safeDistance))
         {
-            //stworz zmienn¹ asteroid, zespawnuj nowy asteroid korzystaj¹c z prefaba
-            // w losowym miejscu, z rotacj¹ domyœln¹ (Quaternion.identity)
-            GameObject asteroid = Instantiate(staticAsteriod, randomPosition, Quaternion.identity);
+            //stworz zmiennÂ¹ asteroid, zespawnuj nowy asteroid korzystajÂ¹c z prefaba
+            // w losowym miejscu, z rotacjÂ¹ domyÅ“lnÂ¹ (Quaternion.identity)
+            GameObject asteroid = Instantiate(staticAsteroid, randomPosition, Quaternion.identity);
 
-            //zwróæ asteroidê jako wynik dzia³ania
+            //zwrÃ³Ã¦ asteroidÃª jako wynik dziaÂ³ania
             return asteroid;
         }
         else
         {
             return null;
         }
+
     }
     void AsteroidCountControll()
     {
-        //przygotuj tablicê wszystkich asteroidów na scenie
+        //przygotuj tablicÃª wszystkich asteroidÃ³w na scenie
         GameObject[] asteroids = GameObject.FindGameObjectsWithTag("Asteroid");
 
-        //przejdŸ pêtl¹ przez wszystkie
+        //przejdÅ¸ pÃªtlÂ¹ przez wyszystkie
         foreach (GameObject asteroid in asteroids)
         {
-            //odleg³oœæ od gracza 
-            
-            //wektor przesuniêcia miêdzy graczem a asteroid¹
-            //(o ile musze przesun¹æ gracza, ¿eby znalaz³ siê w miejscu asteroidy
+            //odlegÂ³oÅ“Ã¦ od gracza
+
+            //wektor przesuniÃªcia miÃªdzy graczem a asteroidÂ¹
+            //(o ile musze przesunÂ¹c gracza, Â¿eby znalazÂ³ siÃª w miejscu asteroidy
             Vector3 delta = player.position - asteroid.transform.position;
-            
-            //magnitude to d³ugoœæ wekotra od gracza
+
+            //magnitude to dugoÅ“Ã¦ wektora = odlegÂ³oÅ“Ã¦ od gracza
             float distanceToPlayer = delta.magnitude;
 
             if (distanceToPlayer > 30)
             {
                 Destroy(asteroid);
             }
-            
-            
         }
-
     }
-
 }
 
-   
 
-    
+
 
