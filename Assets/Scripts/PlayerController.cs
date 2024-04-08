@@ -107,7 +107,7 @@ public class PlayerController : MonoBehaviour
             if (shieldCapacity <= 0)
             {
                 //poinformuj level manager, ¿e gra siê skoñczy³a bo nie mamy os³on
-                levelManagerObject.GetComponent<LevelManager>().levelFailed = true;
+                levelManagerObject.GetComponent<LevelManager>().OnFailure();
             }
         }
     }
@@ -118,8 +118,8 @@ public class PlayerController : MonoBehaviour
         //¿e poziom jest ukoñczony
         if (other.transform.CompareTag("LevelExit"))
         {
-            //z obiektu LevelManager wyci¹gnij skrypt LevelManager i ustaw flagê
-            levelManagerObject.GetComponent<LevelManager>().levelComplete = true;
+            //wywo³aj dla LevelManager metodê zakoñczenia poziomu
+            levelManagerObject.GetComponent<LevelManager>().OnSuccess();
         }
     }
 }
